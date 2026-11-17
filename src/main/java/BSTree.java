@@ -11,8 +11,7 @@ public class BSTree
 
    public BSTree()
    {
-   
-       
+      root = null;
    }
 
     /**
@@ -29,6 +28,10 @@ public class BSTree
      */
    public void insert(Integer target)
    {
+      if(root == null)
+         root = new BSTNode<Integer>(target);
+      else
+         root.insert(target);
    }
 
 
@@ -38,7 +41,9 @@ public class BSTree
      */
    public Integer retrieve(Integer target)
    {
-	return null;
+      if(root == null)
+         return null;
+      return root.retrieve(target);
    }
 
 
@@ -52,8 +57,9 @@ public class BSTree
      */
    public int retrieveDepth(Integer target)
    {
-	return 0;
-       
+      if(root == null)
+         return 0;
+      return root.retrieveDepth(target);
    }
 
     
@@ -95,8 +101,9 @@ public class BSTree
     */
    public Integer largest()
    {
-	return null;
-   
+      if(root == null)
+         return null;
+      return root.getLargest();
    }
 
 
@@ -119,7 +126,7 @@ public class BSTree
             {
                public void accept(Integer i)
                {
-               //need to add some code here...
+                  L.add(i);
                }
             });
       }
@@ -131,12 +138,27 @@ public class BSTree
 
 
 
+   // Like CountConsumer, but adds the values instead of counting nodes.
+   class SumConsumer implements Consumer<Integer>
+   {
+      public int total = 0;
+
+      public void accept(Integer val)
+      {
+         total += val;
+      }
+   }
+
     /*
       Returns the sum of all the integers in the Tree
      */
    public int sum()
    {
-	return 0;
+      if(root == null)
+         return 0;
+      SumConsumer sum = new SumConsumer();
+      root.inOrderTraversal(sum);
+      return sum.total;
    }
 
 
@@ -153,8 +175,11 @@ public class BSTree
      */
    public boolean myEquals(BSTree that)
    {
-	return false;
-   
+      if(that == null)
+         return false;
+      if(root == null)
+         return that.root == null;
+      return root.myEquals(that.root);
    }
 
 
